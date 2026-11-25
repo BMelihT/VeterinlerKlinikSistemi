@@ -1,4 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using VeterinlerKlinikSistemi.Veri;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Veritabanı (SQL Server LocalDB)
+var baglantiCumlesi = builder.Configuration.GetConnectionString("VarsayilanBaglanti")
+    ?? throw new InvalidOperationException("'VarsayilanBaglanti' bağlantı dizesi bulunamadı.");
+
+builder.Services.AddDbContext<UygulamaDbContext>(options =>
+    options.UseSqlServer(baglantiCumlesi));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
